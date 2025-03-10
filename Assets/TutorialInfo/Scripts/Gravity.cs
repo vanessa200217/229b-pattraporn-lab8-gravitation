@@ -5,27 +5,31 @@ public class Gravity : MonoBehaviour
 {
     Rigidbody rb;
     const float G = 0.006674f;
-    public static List<Gravity> planetLists;
-    
+
+    public static List<Gravity> otherObjectsLists;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        if (planetLists == null)
+
+        if (otherObjectsLists == null)
         {
-            planetLists = new List<Gravity>();
+            otherObjectsLists = new List<Gravity>();
         }
-        planetLists.Add(this);
+
+        otherObjectsLists.Add(this);
     }
 
     private void FixedUpdate()
     {
-        foresch (var planet in planeLists)
+        foreach (Gravity obj in otherObjectsLists)
         {
-            if(planet != this)
-                Attract(planet);
+            if (obj != this)
+            {
+                Attract(obj);
+            }
         }
     }
-    
     void Attract(Gravity other)
     {
         Rigidbody ohter = other.rb;
@@ -39,5 +43,4 @@ public class Gravity : MonoBehaviour
         
         other.AddForce(finalforce);
     }
-    
 }
