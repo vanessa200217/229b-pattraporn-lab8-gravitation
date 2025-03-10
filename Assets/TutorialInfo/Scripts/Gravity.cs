@@ -30,17 +30,21 @@ public class Gravity : MonoBehaviour
             }
         }
     }
+
     void Attract(Gravity other)
     {
-        Rigidbody ohter = other.rb;
-        
-        Vector3 direction = rb.position - ohterRb.position;
-        
+        Rigidbody otherRb = other.rb;
+
+        if (otherRb == null) return;  // ป้องกัน error ถ้า Rigidbody หายไป
+
+        Vector3 direction = rb.position - otherRb.position;
         float distance = direction.magnitude;
-        
-        float forceMagnitude = G * ((rb.mass * ohterRb.mass)/Mathf.Pow(distance, 2));
+
+        if (distance == 0) return;  // ป้องกัน division by zero
+
+        float forceMagnitude = G * ((rb.mass * otherRb.mass) / Mathf.Pow(distance, 2));
         Vector3 finalforce = forceMagnitude * direction.normalized;
-        
-        other.AddForce(finalforce);
+
+        otherRb.AddForce(finalforce);
     }
 }
